@@ -24,7 +24,7 @@ class Mahasiswa extends Server {
     {
         // panggil model "Mmahasiswa'
         $this->load->model("Mmahasiswa","mdl",TRUE);
-        // ambil parameter data yang akan diisi
+        // ambil parameter data yang akan diisi okok
         $data = array(
             "npm" =>$this->post("npm"),
             "nama" =>$this->post("nama"),
