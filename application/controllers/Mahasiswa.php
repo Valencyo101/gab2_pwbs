@@ -3,17 +3,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 require APPPATH."libraries/Server.php";
 
-class Mahasiswa extends Server {
+class Mahasiswa extends Server 
+{
+    //buat instruktor
+    public function __construct()
+    {
+        parent ::__construct();
 
+        //panggil model "Mmahasiswa"
+        $this->load->model("Mmahasiswa", "model",TRUE);
+    }
 
 	//buat fungsi "GET"
     function service_get()
     {
-        //panggil model "Mmahasiswa"
-        $this->load->model("Mmahasiswa","mdl",TRUE);
-
+        
         //panggil fungsi "get_data"
-        $this->mdl->get_data();
+        $this->model->get_data();
 
         //memberikan response
         $this->response(array("mahasiswa" => 
@@ -22,9 +28,9 @@ class Mahasiswa extends Server {
     //buat fungsi "POST"
     function service_post()
     {
-        // panggil model "Mmahasiswa'
-        $this->load->model("Mmahasiswa","mdl",TRUE);
-        // ambil parameter data yang akan diisi okok
+        // panggil model "Mmahasiswa"
+        $this->load->model("Mmahasiswa","model",TRUE);
+        // ambil parameter data yang akan diisi 
         $data = array(
             "npm" =>$this->post("npm"),
             "nama" =>$this->post("nama"),
@@ -33,10 +39,11 @@ class Mahasiswa extends Server {
             "token" => base64_encode($this->post("npm")),
         );
         // panggil method "save data"
-        $hasil = $this->mdl->save_data(
+        $hasil = $this->model->save_data(
             $data["npm"], $data["nama"], 
             $data["telepon"], $data["jurusan"], 
             $data["token"]);
+
         // jika hasil = 0
         if($hasil == 0)
         {
@@ -51,23 +58,48 @@ class Mahasiswa extends Server {
     //buat fungsi "PUT"
     function service_put()
     {
+        // panggil model "Mmahasiswa"
+        $this->load->model("Mmahasiswa","model",TRUE);
+        // ambil parameter data yang akan diisi 
+        $data = array(
+            "npm" =>$this->put("npm"),
+            "nama" =>$this->put("nama"),
+            "telepon" =>$this->put("telepon"),
+            "jurusan" =>$this->put("jurusan"),
+            "token" => base64_encode($this->put("token")),
+        );
+        // panggil method "update data"
+        $hasil = $this->model->update_data(
+            $data["npm"], $data["nama"], 
+            $data["telepon"], $data["jurusan"], 
+            $data["token"]);
 
+            // jika hasil = 0
+        if($hasil == 0)
+        {
+            $this->response(array("status" => "Data Mahasiswa Berhasil Diubah"),200);
+        }
+        // jika hasil ! = 0
+        else
+        {
+            $this->response(array("status" => "Data Mahasiswa Gagal Diubah !"),200);
+        }
     }
     //buat service "DELETE"
     function service_delete()
     {
-        //panggil model "Mmahasiswa"
-        $this->load->model("Mmahasiswa","mdl",TRUE);
-        //ambil parameter token "(NPM)"
+        // panggil model "Mmahasiswa"
+        $this->load->model("Mmahasiswa","model",TRUE);
+        // ambil parameter token "(NPM)"
         $token = $this->delete("npm");
-        //panggil fungsi "delete_data"
-        $hasil = $this->mdl->delete_data(base64_encode($token));
-        //jika proses delete berhasil
+        // panggil fungsi "delete_data"
+        $hasil = $this->model->delete_data(base64_encode($token));
+        // jika proses delete berhasil
         if($hasil == 1)
         {
             $this->repsonse(array("status" => "Data Mahasiswa Berhasil Dihapus"),200);
         } 
-        //jika proses delete gagal
+        // jika proses delete gagal
         else
         {
             $this->repsonse(array("status" => "Data Mahasiswa Gagal Dihapus !"),200);
