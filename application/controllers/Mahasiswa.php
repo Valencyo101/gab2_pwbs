@@ -70,9 +70,12 @@ class Mahasiswa extends Server
         );
         // panggil method "update data"
         $hasil = $this->model->update_data(
-            $data["npm"], $data["nama"], 
-            $data["telepon"], $data["jurusan"], 
-            $data["token"]);
+            $data["npm"], 
+            $data["nama"], 
+            $data["telepon"],
+            $data["jurusan"], 
+            $data["token"]
+        );
 
             // jika hasil = 0
         if($hasil == 0)

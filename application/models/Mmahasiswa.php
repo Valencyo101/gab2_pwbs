@@ -96,7 +96,7 @@ class Mmahasiswa extends CI_Model {
 
             // ubah data mahasiswa
             $this->db->where("TO_BASE64(npm) = '$token'");
-            $this->db->update("tb_mahasiswa, $data");
+            $this->db->update("tb_mahasiswa", $data);
             // kirim hasil nilai = 0
             $hasil = 0;
 
